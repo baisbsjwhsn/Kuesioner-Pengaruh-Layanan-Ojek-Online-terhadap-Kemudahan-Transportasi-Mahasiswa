@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuesioner Ojek Online – Tugas Akhir</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple: #673AB7;
+    --purple-light: #EDE7F6;
+    --purple-mid: #9575CD;
+    --blue: #1A73E8;
+    --blue-light: #E8F0FE;
+    --red: #D93025;
+    --gray-100: #F8F9FA;
+    --gray-200: #E8EAED;
+    --gray-400: #80868B;
+    --gray-700: #3C4043;
+    --gray-900: #202124;
+    --white: #FFFFFF;
+    --radius: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+    --shadow-hover: 0 2px 8px rgba(0,0,0,0.16);
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #F0EBF8;
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+    color: var(--gray-900);
+  }
+
+  .form-container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* HEADER CARD */
+  .header-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+  .header-banner {
+    height: 10px;
+    background: linear-gradient(90deg, #673AB7, #9C27B0, #E91E63);
+  }
+  .header-body {
+    padding: 24px 24px 20px;
+    border-top: 4px solid var(--purple);
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+  .form-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .form-subtitle {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .required-note {
+    font-size: 13px;
+    color: var(--red);
+  }
+  .required-note span { color: var(--red); font-weight: 700; }
+
+  /* SECTION HEADER */
+  .section-header {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+    border-left: 6px solid var(--purple);
+  }
+  .section-header h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 4px;
+  }
+  .section-header p {
+    font-size: 13px;
+    color: var(--gray-400);
+    line-height: 1.5;
+  }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s;
+    border-top: 3px solid transparent;
+  }
+  .question-card:focus-within {
+    box-shadow: var(--shadow-hover);
+    border-top-color: var(--purple);
+  }
+
+  .question-label {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gray-900);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .question-label .req { color: var(--red); margin-left: 4px; }
+
+  /* RADIO & CHECKBOX */
+  .option-list { display: flex; flex-direction: column; gap: 6px; }
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 2px solid transparent;
+  }
+  .option-item:hover { background: var(--purple-light); }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--purple);
+    cursor: pointer; flex-shrink: 0;
+  }
+  .option-item label {
+    font-size: 14px;
+    color: var(--gray-700);
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .option-item:has(input:checked) {
+    background: var(--purple-light);
+    border-color: var(--purple-mid);
+  }
+
+  /* "Lainnya" input */
+  .other-input {
+    margin-top: 4px;
+    border: none;
+    border-bottom: 2px solid var(--gray-200);
+    padding: 4px 2px;
+    font-size: 14px;
+    color: var(--gray-900);
+    width: 200px;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .other-input:focus { border-bottom-color: var(--purple); }
+
+  /* TEXT INPUT */
+  .text-input-wrap { margin-top: 4px; }
+  .text-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--gray-200);
+    padding: 8px 2px;
+    font-size: 14px;
+    color: var(--gray-900);
+    background: transparent;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .text-input:focus { border-bottom-color: var(--purple); }
+
+  /* TEXTAREA */
+  .textarea-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--gray-200);
+    padding: 8px 2px;
+    font-size: 14px;
+    color: var(--gray-900);
+    background: transparent;
+    outline: none;
+    resize: vertical;
+    font-family: 'Roboto', sans-serif;
+    min-height: 80px;
+    transition: border-color 0.2s;
+  }
+  .textarea-input:focus { border-bottom-color: var(--purple); }
+
+  /* LIKERT SCALE */
+  .likert-wrap { overflow-x: auto; }
+  .likert-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+    min-width: 340px;
+  }
+  .likert-table thead tr th {
+    background: var(--purple-light);
+    color: var(--purple);
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 11px;
+    border: 1px solid #D1C4E9;
+  }
+  .likert-table thead tr th:first-child { text-align: left; border-radius: 6px 0 0 0; }
+  .likert-table thead tr th:last-child { border-radius: 0 6px 0 0; }
+  .likert-table tbody tr { transition: background 0.15s; }
+  .likert-table tbody tr:hover td { background: #FAF5FF; }
+  .likert-table tbody td {
+    border: 1px solid var(--gray-200);
+    padding: 10px 6px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--gray-700);
+    background: var(--white);
+  }
+  .likert-table tbody td:first-child { text-align: left; padding-left: 10px; font-size: 13px; }
+  .likert-table tbody tr:last-child td:first-child { border-radius: 0 0 0 6px; }
+  .likert-table tbody tr:last-child td:last-child { border-radius: 0 0 6px 0; }
+  .likert-table input[type="radio"] { accent-color: var(--purple); width: 16px; height: 16px; cursor: pointer; }
+  .likert-caption {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--gray-400);
+    margin-top: 6px; padding: 0 2px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 14px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+  }
+  .progress-label { font-size: 12px; color: var(--gray-400); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-label span { font-weight: 700; color: var(--purple); }
+  .progress-track {
+    height: 4px; background: var(--gray-200); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--purple), #E91E63);
+    border-radius: 2px; transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* SUBMIT BUTTON */
+  .submit-area {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; gap: 12px; flex-wrap: wrap;
+  }
+  .submit-btn {
+    background: var(--purple);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 10px 28px;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .submit-btn:hover { background: #512DA8; box-shadow: 0 2px 8px rgba(103,58,183,0.4); }
+  .submit-btn:active { transform: scale(0.98); }
+  .clear-btn {
+    background: transparent; color: var(--purple);
+    border: none; font-size: 14px; cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 0;
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+  .clear-btn:hover { color: #512DA8; }
+
+  /* SUCCESS */
+  .success-card {
+    display: none;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 48px 32px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .success-card.show { display: block; }
+  .success-icon { font-size: 56px; margin-bottom: 16px; }
+  .success-title { font-family: 'Google Sans', sans-serif; font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 10px; }
+  .success-text { font-size: 14px; color: var(--gray-700); line-height: 1.6; }
+  .back-btn {
+    margin-top: 24px;
+    background: var(--purple); color: var(--white);
+    border: none; border-radius: 4px;
+    padding: 10px 24px; font-size: 14px;
+    cursor: pointer; font-family: 'Google Sans', sans-serif;
+    font-weight: 700;
+  }
+
+  /* ERROR */
+  .error-msg { font-size: 12px; color: var(--red); margin-top: 6px; display: none; }
+  .question-card.has-error { border-top-color: var(--red) !important; }
+  .question-card.has-error .error-msg { display: block; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #F0EBF8; }
+  ::-webkit-scrollbar-thumb { background: var(--purple-mid); border-radius: 3px; }
+
+  @media (max-width: 480px) {
+    body { padding: 12px 8px 48px; }
+    .header-body, .question-card, .section-header { padding: 16px; }
+    .form-title { font-size: 22px; }
+    .progress-bar-wrap { padding: 10px 16px; top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-container">
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Progress Pengisian</span>
+      <span id="pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <form id="mainForm" novalidate>
+
+    <!-- HEADER -->
+    <div class="header-card">
+      <div class="header-banner"></div>
+      <div class="header-body">
+        <div class="form-title">Kuesioner Penelitian Ojek Online</div>
+        <div class="form-subtitle">
+          Kuesioner ini merupakan bagian dari penelitian tugas akhir mengenai <strong>pengaruh layanan ojek online terhadap kemudahan dan kepuasan mahasiswa dalam beraktivitas</strong>. Data yang Anda berikan akan dijaga kerahasiaannya dan hanya digunakan untuk keperluan akademik.
+        </div>
+        <div class="required-note"><span>*</span> Wajib diisi</div>
+      </div>
+    </div>
+
+    <!-- ===== BAGIAN A ===== -->
+    <div class="section-header">
+      <h2>Bagian A: Identitas Responden</h2>
+      <p>Isi data diri Anda dengan benar. Nama dapat diisi dengan inisial.</p>
+    </div>
+
+    <div class="question-card" data-required="text" id="qA1">
+      <div class="question-label">Nama / Inisial <span class="req">*</span></div>
+      <div class="text-input-wrap"><input type="text" class="text-input" placeholder="Tulis nama atau inisial Anda..."></div>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qA2">
+      <div class="question-label">Jenis Kelamin <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="A2" value="Laki-laki"><label>Laki-laki</label></div>
+        <div class="option-item"><input type="radio" name="A2" value="Perempuan"><label>Perempuan</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qA3">
+      <div class="question-label">Semester / Angkatan <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="A3" value="Semester 1-2"><label>Semester 1–2</label></div>
+        <div class="option-item"><input type="radio" name="A3" value="Semester 3-4"><label>Semester 3–4</label></div>
+        <div class="option-item"><input type="radio" name="A3" value="Semester 5-6"><label>Semester 5–6</label></div>
+        <div class="option-item"><input type="radio" name="A3" value="Semester 7+"><label>Semester 7 ke atas</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="text" id="qA4">
+      <div class="question-label">Program Studi / Fakultas <span class="req">*</span></div>
+      <div class="text-input-wrap"><input type="text" class="text-input" placeholder="Contoh: Manajemen / FEB"></div>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qA5">
+      <div class="question-label">Apakah Anda pengguna aktif layanan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="A5" value="Ya"><label>Ya</label></div>
+        <div class="option-item"><input type="radio" name="A5" value="Tidak"><label>Tidak</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qA6">
+      <div class="question-label">Layanan ojek online yang paling sering Anda gunakan <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="A6" value="Gojek"><label>Gojek</label></div>
+        <div class="option-item"><input type="radio" name="A6" value="Grab"><label>Grab</label></div>
+        <div class="option-item"><input type="radio" name="A6" value="inDrive"><label>inDrive</label></div>
+        <div class="option-item">
+          <input type="radio" name="A6" value="Lainnya">
+          <label>Lainnya: <input type="text" class="other-input" placeholder="Sebutkan..."></label>
+        </div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qA7">
+      <div class="question-label">Rata-rata frekuensi penggunaan ojek online dalam seminggu <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="A7" value="1-2 kali"><label>1–2 kali</label></div>
+        <div class="option-item"><input type="radio" name="A7" value="3-5 kali"><label>3–5 kali</label></div>
+        <div class="option-item"><input type="radio" name="A7" value="Lebih dari 5 kali"><label>Lebih dari 5 kali</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <!-- ===== BAGIAN B ===== -->
+    <div class="section-header">
+      <h2>Bagian B: Pengaruh terhadap Kemudahan Beraktivitas</h2>
+      <p>Berikan penilaian Anda pada setiap pernyataan berikut.<br>
+      <strong>1</strong> = Sangat Tidak Setuju &nbsp;|&nbsp; <strong>2</strong> = Tidak Setuju &nbsp;|&nbsp; <strong>3</strong> = Netral &nbsp;|&nbsp; <strong>4</strong> = Setuju &nbsp;|&nbsp; <strong>5</strong> = Sangat Setuju</p>
+    </div>
+
+    <!-- Likert B -->
+    <div class="question-card" data-required="likert" id="qB1">
+      <div class="question-label">B1 – Pernyataan Skala Likert <span class="req">*</span></div>
+      <div class="likert-wrap">
+        <table class="likert-table">
+          <thead><tr>
+            <th style="width:48%">Pernyataan</th>
+            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+          </tr></thead>
+          <tbody id="likertB">
+            <tr><td>Layanan ojek online memudahkan saya pergi ke kampus tepat waktu.</td>
+              <td><input type="radio" name="LB1" value="1"></td><td><input type="radio" name="LB1" value="2"></td>
+              <td><input type="radio" name="LB1" value="3"></td><td><input type="radio" name="LB1" value="4"></td>
+              <td><input type="radio" name="LB1" value="5"></td></tr>
+            <tr><td>Layanan ojek online membantu menjangkau lokasi yang sulit diakses kendaraan umum.</td>
+              <td><input type="radio" name="LB2" value="1"></td><td><input type="radio" name="LB2" value="2"></td>
+              <td><input type="radio" name="LB2" value="3"></td><td><input type="radio" name="LB2" value="4"></td>
+              <td><input type="radio" name="LB2" value="5"></td></tr>
+            <tr><td>Layanan ojek online menghemat waktu perjalanan saya sehari-hari.</td>
+              <td><input type="radio" name="LB3" value="1"></td><td><input type="radio" name="LB3" value="2"></td>
+              <td><input type="radio" name="LB3" value="3"></td><td><input type="radio" name="LB3" value="4"></td>
+              <td><input type="radio" name="LB3" value="5"></td></tr>
+            <tr><td>Layanan ojek online memudahkan saya menghadiri kegiatan akademik maupun non-akademik.</td>
+              <td><input type="radio" name="LB4" value="1"></td><td><input type="radio" name="LB4" value="2"></td>
+              <td><input type="radio" name="LB4" value="3"></td><td><input type="radio" name="LB4" value="4"></td>
+              <td><input type="radio" name="LB4" value="5"></td></tr>
+            <tr><td>Layanan ojek online dapat diandalkan saat saya butuh transportasi mendadak.</td>
+              <td><input type="radio" name="LB5" value="1"></td><td><input type="radio" name="LB5" value="2"></td>
+              <td><input type="radio" name="LB5" value="3"></td><td><input type="radio" name="LB5" value="4"></td>
+              <td><input type="radio" name="LB5" value="5"></td></tr>
+            <tr><td>Layanan ojek online meningkatkan mobilitas saya sebagai mahasiswa.</td>
+              <td><input type="radio" name="LB6" value="1"></td><td><input type="radio" name="LB6" value="2"></td>
+              <td><input type="radio" name="LB6" value="3"></td><td><input type="radio" name="LB6" value="4"></td>
+              <td><input type="radio" name="LB6" value="5"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="likert-caption"><span>Sangat Tidak Setuju</span><span>Sangat Setuju</span></div>
+      <div class="error-msg">Isi semua baris pernyataan.</div>
+    </div>
+
+    <!-- Pilihan Ganda B -->
+    <div class="question-card" data-required="radio" id="qB7">
+      <div class="question-label">B7. Aspek apa yang paling membantu dari layanan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="B7" value="A"><label>Kecepatan dan ketepatan waktu</label></div>
+        <div class="option-item"><input type="radio" name="B7" value="B"><label>Kemudahan pemesanan melalui aplikasi</label></div>
+        <div class="option-item"><input type="radio" name="B7" value="C"><label>Jangkauan area yang luas</label></div>
+        <div class="option-item"><input type="radio" name="B7" value="D"><label>Harga yang terjangkau</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qB8">
+      <div class="question-label">B8. Seberapa besar pengaruh ojek online terhadap produktivitas akademik Anda? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="B8" value="A"><label>Sangat besar – sangat membantu aktivitas kuliah</label></div>
+        <div class="option-item"><input type="radio" name="B8" value="B"><label>Cukup besar – membantu sebagian kegiatan</label></div>
+        <div class="option-item"><input type="radio" name="B8" value="C"><label>Kecil – hanya sesekali terasa manfaatnya</label></div>
+        <div class="option-item"><input type="radio" name="B8" value="D"><label>Tidak berpengaruh</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qB9">
+      <div class="question-label">B9. Situasi apa yang paling sering mendorong Anda menggunakan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="B9" value="A"><label>Terlambat atau terburu-buru ke kampus</label></div>
+        <div class="option-item"><input type="radio" name="B9" value="B"><label>Tidak ada kendaraan pribadi</label></div>
+        <div class="option-item"><input type="radio" name="B9" value="C"><label>Cuaca tidak mendukung</label></div>
+        <div class="option-item"><input type="radio" name="B9" value="D"><label>Membawa barang bawaan yang banyak</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <!-- Esai B -->
+    <div class="question-card" data-required="textarea" id="qB10">
+      <div class="question-label">B10. Ceritakan pengalaman nyata Anda ketika layanan ojek online sangat membantu dalam menyelesaikan aktivitas sebagai mahasiswa! <span class="req">*</span></div>
+      <textarea class="textarea-input" placeholder="Tuliskan cerita atau pengalaman Anda di sini..." rows="4"></textarea>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" data-required="textarea" id="qB11">
+      <div class="question-label">B11. Menurut Anda, apa kelebihan utama ojek online dibandingkan moda transportasi lain yang biasa Anda gunakan? <span class="req">*</span></div>
+      <textarea class="textarea-input" placeholder="Tuliskan pendapat Anda..." rows="4"></textarea>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" id="qB12">
+      <div class="question-label">B12. Adakah hambatan atau kendala yang Anda alami saat menggunakan layanan ojek online? Jelaskan!</div>
+      <textarea class="textarea-input" placeholder="Opsional – ceritakan jika ada..." rows="3"></textarea>
+    </div>
+
+    <!-- ===== BAGIAN C ===== -->
+    <div class="section-header">
+      <h2>Bagian C: Tingkat Kepuasan terhadap Layanan Ojek Online</h2>
+      <p>Berikan penilaian kepuasan Anda.<br>
+      <strong>1</strong> = Sangat Tidak Puas &nbsp;|&nbsp; <strong>2</strong> = Tidak Puas &nbsp;|&nbsp; <strong>3</strong> = Cukup Puas &nbsp;|&nbsp; <strong>4</strong> = Puas &nbsp;|&nbsp; <strong>5</strong> = Sangat Puas</p>
+    </div>
+
+    <!-- Likert C -->
+    <div class="question-card" data-required="likert" id="qC1">
+      <div class="question-label">C1 – Penilaian Kepuasan Layanan <span class="req">*</span></div>
+      <div class="likert-wrap">
+        <table class="likert-table">
+          <thead><tr>
+            <th style="width:48%">Aspek Layanan</th>
+            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+          </tr></thead>
+          <tbody id="likertC">
+            <tr><td>Kecepatan respons pengemudi saat menerima pesanan.</td>
+              <td><input type="radio" name="LC1" value="1"></td><td><input type="radio" name="LC1" value="2"></td>
+              <td><input type="radio" name="LC1" value="3"></td><td><input type="radio" name="LC1" value="4"></td>
+              <td><input type="radio" name="LC1" value="5"></td></tr>
+            <tr><td>Keramahan dan sikap profesional pengemudi.</td>
+              <td><input type="radio" name="LC2" value="1"></td><td><input type="radio" name="LC2" value="2"></td>
+              <td><input type="radio" name="LC2" value="3"></td><td><input type="radio" name="LC2" value="4"></td>
+              <td><input type="radio" name="LC2" value="5"></td></tr>
+            <tr><td>Keamanan dan keselamatan selama perjalanan.</td>
+              <td><input type="radio" name="LC3" value="1"></td><td><input type="radio" name="LC3" value="2"></td>
+              <td><input type="radio" name="LC3" value="3"></td><td><input type="radio" name="LC3" value="4"></td>
+              <td><input type="radio" name="LC3" value="5"></td></tr>
+            <tr><td>Kesesuaian tarif dengan jarak perjalanan.</td>
+              <td><input type="radio" name="LC4" value="1"></td><td><input type="radio" name="LC4" value="2"></td>
+              <td><input type="radio" name="LC4" value="3"></td><td><input type="radio" name="LC4" value="4"></td>
+              <td><input type="radio" name="LC4" value="5"></td></tr>
+            <tr><td>Kemudahan penggunaan aplikasi pemesanan.</td>
+              <td><input type="radio" name="LC5" value="1"></td><td><input type="radio" name="LC5" value="2"></td>
+              <td><input type="radio" name="LC5" value="3"></td><td><input type="radio" name="LC5" value="4"></td>
+              <td><input type="radio" name="LC5" value="5"></td></tr>
+            <tr><td>Ketepatan estimasi waktu tiba pengemudi.</td>
+              <td><input type="radio" name="LC6" value="1"></td><td><input type="radio" name="LC6" value="2"></td>
+              <td><input type="radio" name="LC6" value="3"></td><td><input type="radio" name="LC6" value="4"></td>
+              <td><input type="radio" name="LC6" value="5"></td></tr>
+            <tr><td>Kepuasan secara keseluruhan terhadap layanan ojek online.</td>
+              <td><input type="radio" name="LC7" value="1"></td><td><input type="radio" name="LC7" value="2"></td>
+              <td><input type="radio" name="LC7" value="3"></td><td><input type="radio" name="LC7" value="4"></td>
+              <td><input type="radio" name="LC7" value="5"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="likert-caption"><span>Sangat Tidak Puas</span><span>Sangat Puas</span></div>
+      <div class="error-msg">Isi semua baris penilaian.</div>
+    </div>
+
+    <!-- Pilihan Ganda C -->
+    <div class="question-card" data-required="radio" id="qC8">
+      <div class="question-label">C8. Bagaimana penilaian Anda secara keseluruhan terhadap kualitas layanan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="C8" value="A"><label>Sangat baik – memenuhi seluruh ekspektasi saya</label></div>
+        <div class="option-item"><input type="radio" name="C8" value="B"><label>Baik – sebagian besar memuaskan</label></div>
+        <div class="option-item"><input type="radio" name="C8" value="C"><label>Cukup – standar, tidak terlalu memuaskan</label></div>
+        <div class="option-item"><input type="radio" name="C8" value="D"><label>Kurang – banyak yang perlu diperbaiki</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qC9">
+      <div class="question-label">C9. Aspek apa yang paling sering membuat Anda kecewa dengan layanan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="C9" value="A"><label>Pengemudi lambat tiba / sering dibatalkan</label></div>
+        <div class="option-item"><input type="radio" name="C9" value="B"><label>Tarif yang dirasakan terlalu mahal</label></div>
+        <div class="option-item"><input type="radio" name="C9" value="C"><label>Pengemudi bersikap tidak profesional</label></div>
+        <div class="option-item"><input type="radio" name="C9" value="D"><label>Aplikasi sering error / tidak responsif</label></div>
+        <div class="option-item"><input type="radio" name="C9" value="E"><label>Tidak ada keluhan berarti</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qC10">
+      <div class="question-label">C10. Apakah Anda akan merekomendasikan layanan ojek online kepada rekan mahasiswa lain? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="C10" value="A"><label>Pasti akan merekomendasikan</label></div>
+        <div class="option-item"><input type="radio" name="C10" value="B"><label>Kemungkinan besar akan merekomendasikan</label></div>
+        <div class="option-item"><input type="radio" name="C10" value="C"><label>Ragu-ragu</label></div>
+        <div class="option-item"><input type="radio" name="C10" value="D"><label>Tidak akan merekomendasikan</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <div class="question-card" data-required="radio" id="qC11">
+      <div class="question-label">C11. Apa yang paling mempengaruhi kepuasan Anda dalam menggunakan ojek online? <span class="req">*</span></div>
+      <div class="option-list">
+        <div class="option-item"><input type="radio" name="C11" value="A"><label>Harga / tarif</label></div>
+        <div class="option-item"><input type="radio" name="C11" value="B"><label>Kecepatan layanan</label></div>
+        <div class="option-item"><input type="radio" name="C11" value="C"><label>Keamanan perjalanan</label></div>
+        <div class="option-item"><input type="radio" name="C11" value="D"><label>Keramahan pengemudi</label></div>
+      </div>
+      <div class="error-msg">Pilih salah satu jawaban.</div>
+    </div>
+
+    <!-- Esai C -->
+    <div class="question-card" data-required="textarea" id="qC12">
+      <div class="question-label">C12. Jelaskan aspek layanan ojek online yang menurut Anda sudah baik dan perlu dipertahankan! <span class="req">*</span></div>
+      <textarea class="textarea-input" placeholder="Tuliskan pendapat Anda..." rows="4"></textarea>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" data-required="textarea" id="qC13">
+      <div class="question-label">C13. Jelaskan aspek layanan ojek online yang menurut Anda masih perlu diperbaiki atau ditingkatkan! <span class="req">*</span></div>
+      <textarea class="textarea-input" placeholder="Tuliskan pendapat Anda..." rows="4"></textarea>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <div class="question-card" data-required="textarea" id="qC14">
+      <div class="question-label">C14. Berikan saran Anda kepada penyedia layanan ojek online agar dapat lebih memenuhi kebutuhan mahasiswa! <span class="req">*</span></div>
+      <textarea class="textarea-input" placeholder="Tuliskan saran Anda..." rows="4"></textarea>
+      <div class="error-msg">Pertanyaan ini wajib diisi.</div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <button type="submit" class="submit-btn">Kirim Jawaban</button>
+      <button type="button" class="clear-btn" onclick="clearForm()">Hapus semua jawaban</button>
+    </div>
+
+  </form>
+
+  <!-- SUCCESS -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Jawaban Anda Telah Terkirim!</div>
+    <div class="success-text">Terima kasih telah mengisi kuesioner ini dengan lengkap dan jujur.<br>Data Anda sangat berharga bagi penelitian tugas akhir ini.<br><br>Semoga hari Anda menyenangkan! 😊</div>
+    <button class="back-btn" onclick="backToForm()">Isi Ulang (Responden Baru)</button>
+  </div>
+
+</div>
+
+<script>
+// Progress tracking
+function updateProgress() {
+  const cards = document.querySelectorAll('.question-card[data-required]');
+  let filled = 0;
+  cards.forEach(card => {
+    const type = card.dataset.required;
+    if (type === 'radio') {
+      const name = card.querySelector('input[type="radio"]')?.name;
+      if (name && card.querySelector(`input[name="${name}"]:checked`)) filled++;
+    } else if (type === 'text') {
+      const val = card.querySelector('.text-input')?.value.trim();
+      if (val) filled++;
+    } else if (type === 'textarea') {
+      const val = card.querySelector('.textarea-input')?.value.trim();
+      if (val) filled++;
+    } else if (type === 'likert') {
+      const rows = card.querySelectorAll('tbody tr');
+      const allFilled = Array.from(rows).every(row => row.querySelector('input:checked'));
+      if (allFilled) filled++;
+    }
+  });
+  const pct = Math.round((filled / cards.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('pct').textContent = pct + '%';
+}
+
+// Attach progress listeners
+document.querySelectorAll('input, textarea').forEach(el => {
+  el.addEventListener('change', updateProgress);
+  el.addEventListener('input', updateProgress);
+});
+
+// Validation
+function validateForm() {
+  let valid = true;
+  const cards = document.querySelectorAll('.question-card[data-required]');
+  cards.forEach(card => {
+    card.classList.remove('has-error');
+    const type = card.dataset.required;
+    let ok = false;
+    if (type === 'radio') {
+      const name = card.querySelector('input[type="radio"]')?.name;
+      ok = name && !!card.querySelector(`input[name="${name}"]:checked`);
+    } else if (type === 'text') {
+      ok = !!(card.querySelector('.text-input')?.value.trim());
+    } else if (type === 'textarea') {
+      ok = !!(card.querySelector('.textarea-input')?.value.trim());
+    } else if (type === 'likert') {
+      const rows = card.querySelectorAll('tbody tr');
+      ok = Array.from(rows).every(row => row.querySelector('input:checked'));
+    }
+    if (!ok) { card.classList.add('has-error'); valid = false; }
+  });
+  if (!valid) {
+    const first = document.querySelector('.has-error');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return valid;
+}
+
+document.getElementById('mainForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (validateForm()) {
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('successCard').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+function clearForm() {
+  if (confirm('Hapus semua jawaban yang telah diisi?')) {
+    document.getElementById('mainForm').reset();
+    document.querySelectorAll('.has-error').forEach(c => c.classList.remove('has-error'));
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function backToForm() {
+  document.getElementById('mainForm').reset();
+  document.getElementById('mainForm').style.display = '';
+  document.getElementById('successCard').classList.remove('show');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+updateProgress();
+</script>
+</body>
+</html>
